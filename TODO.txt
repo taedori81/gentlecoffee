@@ -1,0 +1,12 @@
+base.py
+    -check staticfiles_dir
+local.env
+wsgi.py
+navbar.html
+navbar_dropdown.html
+
+[setup]
+mkvirtualenv --python=/usr/bin/python3 {{ project_name }}
+pip install -r requirements.txt
+python setup.py develop
+saleor syncdb

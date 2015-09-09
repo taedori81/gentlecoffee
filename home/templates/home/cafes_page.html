@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block wagtailpage %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="cafes-hero-image-wrapper">
+                <div class="im-centered">
+                    <h2 class="cafe-header">{{ self.header }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col col-sm-4">
+
+                </div>
+                <div class="col col-sm-8">
+                    <div class="row">
+                        {% include 'home/include/cafe_item.html' with cafes=self.cafes %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock wagtailpage %}
+
+{% block outerbreadcrumb %}{% endblock outerbreadcrumb %}
+{% block outercontent %} {% endblock outercontent %}

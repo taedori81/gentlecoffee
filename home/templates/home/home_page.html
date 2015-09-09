@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block wagtailpage %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="landing-page-wrapper">
+                <div class="hero-image-wrapper">
+                    <div class="im-centered">
+                        <div class="row">
+                        <div class="col col-sm-12">
+                            <h1 class="main-title">Gentle Coffee</h1>
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col col-sm-12 text-center">
+                                <a class="btn main-button col-centered" type="button" href="/shop">Shop Coffee</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row text-center subtitle">
+                    <h3>{{ self.subtitle }}</h3>
+                    <div class="separator"></div>
+                    <p class="description">{{ self.description }}</p>
+                    <a href="/shop">View all products</a>
+                    </div>
+                    <div class="row">
+                        {% include "home/include/home_item.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock wagtailpage %}
+
+{% block outerbreadcrumb %}{% endblock outerbreadcrumb %}
+{% block outercontent %} {% endblock outercontent %}

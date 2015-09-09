@@ -1,0 +1,341 @@
+$icon-font-path: "../fonts/";
+@import "bootstrap-sass/assets/stylesheets/bootstrap";
+@import "components-font-awesome/scss/font-awesome";
+
+
+
+
+@media (min-width: 979px) {
+  ul.nav li.dropdown:hover > ul.dropdown-menu {
+  display: block;
+  }
+}
+
+
+.price {
+	&.undiscounted {
+		text-decoration: line-through;
+	}
+}
+
+.address-details {
+	border-bottom: 1px dashed;
+	color: #3a87ad;
+	cursor: pointer;
+}
+
+.popover {
+	min-width: 200px;
+}
+
+.product-list-item-name {
+	display: block;
+	margin-top: $grid-gutter-width/4;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.product-gallery {
+	margin-top: $grid-gutter-width;
+}
+
+.product-related {
+	.active {
+		border: 1px solid $btn-primary-border;
+		box-shadow: 0 0 5px $btn-primary-border;
+	}
+}
+
+.product-form {
+	.btn-group {
+		display: block;
+		overflow: hidden;
+	}
+}
+
+.form-group.required .control-label:after{
+	content: '*';
+}
+
+.breadcrumb {
+	> li+li {
+		&:before {
+			content: '/';
+		}
+	}
+}
+
+.cart {
+	> tbody {
+		> .cart-item {
+			> td {
+				vertical-align: text-bottom;
+			}
+		}
+	}
+
+	&-item {
+		&-image {
+			display: inline-block;
+			max-width: 100%;
+		}
+
+		&-quantity {
+			input {
+				@extend .form-control;
+
+				border-bottom-right-radius: 0;
+				border-top-right-radius: 0;
+			}
+
+			&-select {
+				display: inline-block;
+				width: calc(100% - 71px);
+
+				option {
+					&:last-child {
+						color: lighten($text-color, 33%);
+					}
+				}
+			}
+
+			&.has-error {
+				input {
+					border-color: $state-danger-text;
+				}
+			}
+		}
+
+		&-amount {
+			.input-group {
+				&.no-submit {
+					display: inline-block;
+					width: calc(100% - 71px);
+
+					input {
+						border-bottom-right-radius: $input-border-radius;
+						border-top-right-radius: $input-border-radius;
+					}
+
+					.btn {
+						display: none;
+					}
+				}
+			}
+
+			.fa {
+				margin-left: 6px;
+				padding-left: 1px;
+			}
+		}
+
+		&-remove {
+			padding-left: 0;
+		}
+
+		.error {
+			display: block;
+		}
+	}
+}
+
+#id_method {
+	@include make-row;
+	list-style: none;
+	padding: 0;
+
+	li {
+		@include make-xs-column(6);
+		@include make-sm-column(4);
+		margin-bottom: $grid-gutter-width/3;
+		white-space: nowrap;
+	}
+
+	li:not(:first-child) {
+		label {
+			font-size: 0;
+
+			@each $provider in (default, authorizenet, braintree, coinbase, cybersource, dotpay,
+				wallet, paypal, sage, sofort, stripe) {
+				input[value=#{$provider}] {
+					margin: 6px 110px 6px 0;
+
+					&:after {
+						background: url("../img/#{$provider}-logo.png") no-repeat left;
+						background-size: contain;
+						content: "";
+						display: block;
+						float: left;
+						height: 26px;
+						margin: -6px 0 0 18px;
+						width: 100px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.nav {
+	> li {
+		> a {
+			@extend .text-info;
+		}
+
+		&.active {
+			> a, a:hover {
+				background-color: $brand-info;
+			}
+		}
+	}
+}
+
+.page-header {
+	&--order {
+		margin-top: $grid-gutter-width/3;
+	}
+}
+
+.js {
+	.js-hidden {
+		display: none;
+	}
+}
+
+// Customize
+
+body {
+  color: #222;
+  font-family: 'Raleway', sans-serif;
+}
+
+.main-body {
+  padding-top: 50px;
+}
+
+
+// Navbar
+
+.navbar {
+  margin-bottom: $grid-gutter-width;
+  color: #222;
+  border: none;
+}
+
+.navbar-default .navbar-brand {
+  color: #222;
+  text-transform: uppercase;
+}
+
+.navbar-default {
+  background-color: #ffffff;
+  //border-bottom: 1px #aaaaaa solid;
+  
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default
+.navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
+  background-color: #5bc0de;
+}
+
+.landing-page-wrapper {
+}
+
+.hero-image-wrapper {
+  height: 750px;
+  background: url('../images/Espresso_Step3.jpg') 50% 0;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.cafes-hero-image-wrapper {
+  @extend .hero-image-wrapper;
+  height: 350px;
+  background: url("../images/page-banners-visit-cafe.jpg") 50% 0;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+.main-button {
+  padding: 12px 24px;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: #1DA1DA;
+  border-color: #1DA1DA;
+  color: #fff;
+  text-transform: uppercase;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.main-title {
+  color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 4em;
+}
+
+.im-centered {
+  margin: auto;
+  max-width: 500px;
+  position: relative;
+  top: 45%;
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+
+.separator {
+  height: 2px;
+  width: 50px;
+  background: #222;
+  margin: 0 auto;
+}
+
+.subtitle {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.description {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.cafe-header {
+  color: #FFF;
+
+}
+
+.cafe-logo {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
+
+.cafe-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.cafe-content-container {
+  padding-top: 1.5em;
+  padding-bottom: 1.5em;
+}
+
+.address-container {
+  border: 1px #cbcbcb solid;
+  padding: 1em;
+  margin-top: 1.5em;
+
+  p {
+	font-size: 1.1em;
+  }
+
+  h4 {
+	margin-bottom: 1.5em;
+  }
+}

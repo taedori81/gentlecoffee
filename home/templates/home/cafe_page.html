@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block wagtailpage %}
+    <div class="container">
+        <div class="cafe-container">
+            <div class="row ">
+                <div class="col-sm-12">
+                    {% image self.cafe_logo_image original class='img-responsive col-centered cafe-logo' %}
+                </div>
+                <div class="row">
+                    <div class="col col-sm-12">
+                        {% image self.cafe_image original class='img-responsive col-centered' %}
+                    </div>
+                </div>
+            </div>
+            <div class="cafe-content-container">
+                <div class="row">
+                    <div class="col col-sm-3">
+                        <div class="address-container text-center">
+                            <h4>Visit us</h4>
+                            <p>{{ self.cafe_address_line_1 }}</p>
+                            <p>{{ self.cafe_address_line_2 }}</p>
+                        </div>
+                    </div>
+                    <div class="col col-sm-9">
+                        <h2>{{ self.cafe_name }}</h2>
+                        {{ self.cafe_description | richtext }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock wagtailpage %}
+
+{% block outerbreadcrumb %}{% endblock outerbreadcrumb %}
+{% block outercontent %} {% endblock outercontent %}
