@@ -57,3 +57,14 @@ def display_side_menu_area(context):
         "areas": areas,
         "area_items": area_items
     }
+
+
+@register.filter
+def url_param_dict_to_list(url_items_dict):
+    """Turn this dictionary into a param list for the URL"""
+    params_list = ""
+    for key,value in url_items_dict:
+        if key != "page":
+            params_list += "&%s=%s" % (key, value)
+
+    return params_list

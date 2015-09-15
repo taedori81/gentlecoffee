@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.db import models
 from django.shortcuts import render
@@ -12,6 +13,7 @@ from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 from wagtail.wagtailcore.url_routing import RouteResult
 from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
+from wagtail.wagtailsearch import index
 
 from saleor.product.models import Product
 
@@ -76,9 +78,30 @@ class CafesPage(Page):
         area = request.GET.get('area')
         if area:
             filtered_cafes = cafes.filter(area__area_name=area)
+
+        # Search query
+        search_query = request.GET.get('search', None)
+
+        search_results = None
+
+        if search_query:
+            search_results = CafePage.objects.live().search(search_query)
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(cafes, 10)  # Show 2 cafe page per page
+        try:
+            cafes = paginator.page(page)
+        except PageNotAnInteger:
+            cafes = paginator.page(1)
+        except EmptyPage:
+            cafes = paginator.page(paginator.num_pages)
+
         # Update template context
         context = super(CafesPage, self).get_context(request)
         context['filtered_cafes'] = filtered_cafes
+        context['search_results'] = search_results
+        context['cafes'] = cafes
         return context
 
     content_panels = Page.content_panels + [
@@ -117,6 +140,10 @@ class CafePage(Page):
     cafe_description = RichTextField()
     cafe_address_line_1 = models.CharField(max_length=100)
     cafe_address_line_2 = models.CharField(max_length=100)
+
+    search_fields = Page.search_fields + (
+        index.SearchField('cafe_address_line_2'),
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('cafe_name', classname='full title'),

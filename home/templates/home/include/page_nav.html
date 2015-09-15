@@ -1,0 +1,19 @@
+{% load gentlecoffee_tags %}
+
+{% with request.GET.get.pages|url_param_dict_to_list as pages_list %}
+
+    {% if pages.has_previous %}
+        <a href="?page={{ pages.previous_page_number }}{{ pages_list }}">
+            Previous
+        </a>
+    {% endif %}
+
+    Page {{ pages.number }} of {{ pages.paginator.num_pages }}
+
+    {% if pages.has_next %}
+        <a href="?page={{ pages.next_page_number }}{{ pages_list }}">
+            Next
+        </a>
+    {% endif %}
+
+{% endwith %}

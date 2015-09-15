@@ -273,6 +273,26 @@ body {
   text-align: center;
 }
 
+.search-button {
+  @extend .main-button;
+  padding: 6px 12px;
+  border-color: transparent;
+  margin-top: 0;
+  font-size: 0.8em;
+}
+
+.search-field {
+  @extend .form-control;
+  display: inline;
+  width: 50%;
+}
+
+.search-container {
+  padding-left: 1em;
+  padding-top: 2em;
+  padding-bottom: 3em;
+}
+
 .main-title {
   color: #ffffff;
   text-transform: uppercase;

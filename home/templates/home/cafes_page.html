@@ -14,6 +14,23 @@
             </div>
         </div>
         <div class="container">
+            <!-- Search Section -->
+            <div class="row">
+                <div class="col col-sm-3">
+
+                </div>
+                <div class="col col-sm-9">
+                    <div class="search-container">
+                        <form action="." method="get" class="">
+                            <input type="search" name="search" value="{{ request.GET.search }}"
+                                   placeholder="EX) Los Angeles or CA or 90020"
+                                   class="search-field">
+                            <input type="submit" class="search-button" value="Search">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col col-sm-3">
                     <div class="row">
@@ -26,10 +43,17 @@
                     <div class="row">
                         {% if filtered_cafes %}
                             {% include 'home/include/cafe_item.html' with cafes=filtered_cafes %}
+                        {% elif search_results %}
+                            {% include 'home/include/cafe_item.html' with cafes=search_results %}
                         {% else %}
-                            {% include 'home/include/cafe_item.html' with cafes=self.cafes %}
+                            {% include 'home/include/cafe_item.html' with cafes=cafes %}
                         {% endif %}
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-9">
+                    {% include 'home/include/page_nav.html' with pages=cafes %}
                 </div>
             </div>
         </div>

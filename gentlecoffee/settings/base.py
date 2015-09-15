@@ -211,6 +211,12 @@ MEDIA_URL = '/media/'
 
 WAGTAIL_SITE_NAME = "gentlecoffee"
 
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.wagtailsearch.backends.db.DBSearch',
+    }
+}
+
 SITE_ID = 1
 
 ADMINS = (
