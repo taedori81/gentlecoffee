@@ -214,6 +214,9 @@ body {
   padding-top: 50px;
 }
 
+#wagtail-userbar{
+   top:200px
+}
 
 // Navbar
 
@@ -338,4 +341,9 @@ body {
   h4 {
 	margin-bottom: 1.5em;
   }
+}
+
+.cafe-item-container {
+  padding: 1em;
+  margin: 0 auto;
 }

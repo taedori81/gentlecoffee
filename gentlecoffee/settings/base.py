@@ -92,7 +92,6 @@ INSTALLED_APPS = (
     'taggit',
     'compressor',
     'modelcluster',
-    'debug_toolbar',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -305,3 +304,4 @@ GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 #     THUMBNAIL_DEFAULT_STORAGE = DEFAULT_FILE_STORAGE
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+

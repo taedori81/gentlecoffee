@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags wagtailimages_tags %}
+{% load gentlecoffee_tags %}
 
 {% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
 
@@ -14,12 +15,20 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col col-sm-4">
-
-                </div>
-                <div class="col col-sm-8">
+                <div class="col col-sm-3">
                     <div class="row">
-                        {% include 'home/include/cafe_item.html' with cafes=self.cafes %}
+                        <div class="col col-sm-12">
+                            {% display_side_menu_area %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-sm-9">
+                    <div class="row">
+                        {% if filtered_cafes %}
+                            {% include 'home/include/cafe_item.html' with cafes=filtered_cafes %}
+                        {% else %}
+                            {% include 'home/include/cafe_item.html' with cafes=self.cafes %}
+                        {% endif %}
                     </div>
                 </div>
             </div>

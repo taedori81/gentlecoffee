@@ -10,6 +10,8 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, \
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
+from wagtail.wagtailcore.url_routing import RouteResult
+from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 
 from saleor.product.models import Product
 
@@ -54,23 +56,34 @@ class CafesPage(Page):
     header = models.CharField(max_length=255, blank=False,
                               default='Find your Gentle Coffee Cafes')
 
+    subpage_types = ['home.CafePage']
+
     @property
     def cafes(self):
-        cafe_pages = CafePage.objects.all()
+        # Get the list of CafePage that are descendants of this page
+        cafe_pages = CafePage.objects.live().descendant_of(self)
+
+        # Order by Area name
+        cafe_pages = cafe_pages.order_by('area')
+
         return cafe_pages
-
+    
     def get_context(self, request, *args, **kwargs):
+        # Get the list of cafe pages
         cafes = self.cafes
+        filtered_cafes = None
 
+        area = request.GET.get('area')
+        if area:
+            filtered_cafes = cafes.filter(area__area_name=area)
         # Update template context
         context = super(CafesPage, self).get_context(request)
-        context['cafes'] = cafes
+        context['filtered_cafes'] = filtered_cafes
         return context
 
     content_panels = Page.content_panels + [
         FieldPanel('header', classname='full title'),
     ]
-
 
 
 class CafePage(Page):

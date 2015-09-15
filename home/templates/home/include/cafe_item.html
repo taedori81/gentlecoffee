@@ -2,13 +2,15 @@
 {% load staticfiles %}
 {% load price_range from price_ranges %}
 {% load discounted_price_range price_difference from discount %}
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags wagtailcore_tags %}
 
 {% for cafe in cafes %}
 
     <div class="col-sm-12 col-md-6">
         <div class="cafe-item-container">
-            {% image cafe.cafe_image original class='img-responsive' %}
+            <a href="{% pageurl cafe %}">
+                {% image cafe.cafe_image fill-300x200 class='img-responsive' %}
+            </a>
             <h3>{{ cafe.cafe_name }}</h3>
             <p>{{ cafe.cafe_address_line_1 }}</p>
             <p>{{ cafe.cafe_address_line_2 }}</p>

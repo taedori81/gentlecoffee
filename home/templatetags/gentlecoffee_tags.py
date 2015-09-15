@@ -1,4 +1,5 @@
 from django import template
+from ..models import Area
 
 register = template.Library()
 
@@ -36,4 +37,23 @@ def display_navbar_dropdown(context, parent):
         "parent": parent,
         "menuitems_children": menuitems_children,
         "request": context['request'],
+    }
+
+
+@register.inclusion_tag('home/include/side_menu_area.html', takes_context=True)
+def display_side_menu_area(context):
+    request = context['request']
+    areas = Area.objects.all()
+
+    # TODO Need to build href for filter the page
+    area_items = []
+    for area in areas:
+        item_name = area.area_name
+        item_href = '?area=' + item_name
+        area_items.append({"name": item_name, "href": item_href})
+
+    return {
+        "request": request,
+        "areas": areas,
+        "area_items": area_items
     }

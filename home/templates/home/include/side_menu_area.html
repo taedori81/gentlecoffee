@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load staticfiles %}
+{% load wagtailcore_tags %}
+
+<ul class="list-group">
+     <li class="list-group-item"><a href="/cafes">All Locations</a></li>
+    {% for area_item in area_items %}
+        <li class="list-group-item"><a href="{{ area_item.href }}">{{ area_item.name }}</a></li>
+    {% endfor %}
+</ul>
