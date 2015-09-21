@@ -68,3 +68,27 @@ def url_param_dict_to_list(url_items_dict):
             params_list += "&%s=%s" % (key, value)
 
     return params_list
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+
+@register.inclusion_tag('home/include/blog_item.html', takes_context=True)
+def display_blog_list(context, blog_list):
+
+    blogs = []
+
+    for blog in blog_list:
+        for block in blog.body:
+            if block.block_type == 'heading':
+                blog.heading = block.value
+            if block.block_type == 'photo':
+                blog.photo = block.value
+        blogs.append(blog)
+    request = context['request']
+    return {
+        "request": request,
+        "blogs": blogs,
+    }

@@ -6,9 +6,10 @@ from django.template.response import TemplateResponse
 from django.utils.http import is_safe_url
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_http_methods
+from django.db.models import Avg, Count
 
 from ...product.models import Product, ProductImage, Stock, ProductAttribute, \
-    ProductVariant
+    ProductVariant, Category
 from ..utils import paginate
 from ..views import staff_member_required
 from . import forms

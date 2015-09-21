@@ -2,6 +2,9 @@
 {% load i18n %}
 {% load mptt_tags %}
 {% load materializecss %}
+{% load gentlecoffee_tags %}
+{% load static %}
+{% load prices_i18n %}
 
 {% block title %}{% trans "Categories" %} - {{ block.super }}{% endblock %}
 
@@ -74,14 +77,14 @@
 {% block menu_catalogue_class %} active{% endblock %}
 
 {% block content %}
-    <div class="row">
+     <div class="row">
         <div class="col s12">
             <ul class="collection list">
                 {% if categories %}
                     {% for node in categories %}
                         <li class="collection-item list-item list-item--two-lines">
-                            <a class="list-item-name" href="{% url 'dashboard:category-list' root_pk=node.pk %}">
-                                {{ node.name }}
+                            <a class="list-item-name category-name" href="{% url 'dashboard:category-list' root_pk=node.pk %}">
+                                {{ node.name }}({{ node.product_count }})
                             </a>
 
                             <p class="list-item-desc"><span>
@@ -91,6 +94,24 @@
                                     &nbsp;
                                 {% endif %}
                             </span></p>
+
+                            <!-- Adding -->
+                            {% if node.products %}
+                                {% for prod in node.products.all %}
+                                    <li class="collection-item avatar list-item">
+                                        {% if prod.images.exists %}
+                                            <img src="{{ prod.images.first.image.crop.50x50 }}" alt="" class="circle teal">
+                                        {% else %}
+                                            <img src="{% static 'images/product-image-placeholder.png' %}" alt="" class="circle teal">
+                                        {% endif %}
+                                        <a class="title" href="{% url 'dashboard:product-update' pk=prod.pk %}">
+                                            <span class="list-item-name">{{ prod.name }}</span>
+                                        </a>
+                                        <p class="list-item-price">{% gross prod.price %}</p>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                            <!-- end -->
 
                             {% if node.hidden %}
                                 <span class="list-item-icon"><i class="mdi-action-visibility-off"></i></span>

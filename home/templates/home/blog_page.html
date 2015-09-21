@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block wagtailpage %}
+    <div class="container">
+        <div class="row">
+            <div class="col col-sm-3">
+                <div class="blog-author-container">
+                    <img src="{% static 'images/logo.jpg' %}" alt="">
+                    <h3>{{ self.author }}</h3>
+                    <p>{{ self.date }}</p>
+                </div>
+            </div>
+            <div class="col col-sm-9">
+                {% for block in self.body %}
+                    {% if block.block_type == 'heading' %}
+                        <h1>{{ block.value }}</h1>
+                    {% else %}
+                    <div class="block-{{ block.block_type }}">
+                        {{ block }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock wagtailpage %}
+
+{% block outerbreadcrumb %}{% endblock outerbreadcrumb %}
+{% block outercontent %} {% endblock outercontent %}

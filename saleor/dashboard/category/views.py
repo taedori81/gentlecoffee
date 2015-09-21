@@ -4,22 +4,28 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Avg, Count
 
-from ...product.models import Category
+from ...product.models import Category, Product
 from ..views import staff_member_required
 from .forms import CategoryForm
 
 
+
 @staff_member_required
 def category_list(request, root_pk=None):
+
     root = None
     path = None
-    categories = Category.tree.root_nodes()
+    categories = Category.tree.root_nodes().annotate(product_count=Count('products'))
+
     if root_pk:
         root = get_object_or_404(Category, pk=root_pk)
         path = root.get_ancestors(include_self=True) if root else []
-        categories = root.get_children()
+        categories = root.get_children().annotate(product_count=Count('products'))
+
     ctx = {'categories': categories, 'path': path, 'root': root}
+
     return TemplateResponse(request, 'dashboard/category/list.html', ctx)
 
 

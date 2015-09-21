@@ -312,6 +312,23 @@ table {
   font-size: 120%;
 }
 
+// Dashboard
+.category-name {
+	margin-top: 30px;
+}
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 12px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-top: 4px solid \9;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
 @import "widget/breadcrumbs";
 @import "widget/card";
 @import "widget/data-table";

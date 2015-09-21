@@ -59,7 +59,7 @@ setup(
         'requests>=1.2.0',
         'satchless>=1.1.2,<1.2a0',
         'unidecode',
-        'wagtail==1.0',
+        'wagtail>=1.0',
         'psycopg2==2.6',
         'lxml==3.4.4',
         'pycrypto==2.6.1',

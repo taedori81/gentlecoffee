@@ -3,17 +3,21 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.db import models
 from django.shortcuts import render
+from django.utils import timezone
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, MultiFieldPanel, \
-    InlinePanel, PageChooserPanel
+    InlinePanel, PageChooserPanel, StreamFieldPanel
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
 from wagtail.wagtailsnippets.models import register_snippet
 from wagtail.wagtailcore.url_routing import RouteResult
 from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 from wagtail.wagtailsearch import index
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailcore import blocks
 
 from saleor.product.models import Product
 
@@ -93,8 +97,10 @@ class CafesPage(Page):
         try:
             cafes = paginator.page(page)
         except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
             cafes = paginator.page(1)
         except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results
             cafes = paginator.page(paginator.num_pages)
 
         # Update template context
@@ -158,10 +164,14 @@ class CafePage(Page):
 
 class ShopPage(Page):
 
+    subpage_types = ['CoffeePage', 'BrewingPage', 'MerchandisePage']
+
     def serve(self, request, *args, **kwargs):
-        products = Product.objects.get_available_products()[:12]
+
+        products = Product.objects.get_available_products().filter(categories__name='Coffee')[:12]
         products = products.prefetch_related('categories', 'images',
-                                         'variants__stock')
+                                             'variants__stock')
+
         return render(
             request, self.template,
             {
@@ -171,3 +181,95 @@ class ShopPage(Page):
             })
 
 
+class CoffeePage(Page):
+    pass
+
+
+class BrewingPage(Page):
+    pass
+
+
+class MerchandisePage(Page):
+    pass
+
+
+class SubscribePage(Page):
+    pass
+
+
+class LearnPage(Page):
+    subpage_types = ['home.BlogIndexPage', 'home.EventIndexPage', 'home.BrewGuidePage',
+                     'home.OurStoryPage', 'home.FaqPage']
+
+
+class BlogIndexPage(Page):
+    intro = RichTextField(blank=True)
+    subpage_types = ['home.BlogPage']
+
+    @property
+    def blogs(self):
+        blogs = BlogPage.objects.live().descendant_of(self)
+        blogs = blogs.order_by('-date')
+
+        return blogs
+
+    def get_context(self, request, *args, **kwargs):
+        blogs = self.blogs
+
+        # Pagination
+        page = request.GET.get('page')
+        paginator = Paginator(blogs, 10)
+
+        try:
+            blogs = paginator.page(page)
+        except PageNotAnInteger:
+            blogs = paginator.page(1)
+        except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
+
+        # Update template context
+        context = super(BlogIndexPage, self).get_context(request)
+        context['blogs'] = blogs
+        return context
+
+    content_panels = Page.content_panels + [
+        FieldPanel('title', classname='full title'),
+        FieldPanel('intro', classname='full'),
+    ]
+
+
+class BlogPage(Page):
+    author = models.CharField(max_length=255, default='Gentle Coffee')
+    date = models.DateField('Post Date', blank=True)
+    body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('photo', ImageChooserBlock(template='home/blocks/blog_photo.html')),
+
+    ], blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('author'),
+        FieldPanel('date'),
+        StreamFieldPanel('body'),
+    ]
+
+
+class EventIndexPage(Page):
+    pass
+
+
+class EventPage(Page):
+    pass
+
+
+class BrewGuidePage(Page):
+    pass
+
+
+class OurStoryPage(Page):
+    pass
+
+
+class FaqPage(Page):
+    pass

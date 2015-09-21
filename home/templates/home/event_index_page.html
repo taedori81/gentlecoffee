@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}
+
+{% block wagtailpage %}
+    <h1>Event Index Page</h1>
+{% endblock wagtailpage %}
+
+{% block outerbreadcrumb %}{% endblock outerbreadcrumb %}
+{% block outercontent %} {% endblock outercontent %}

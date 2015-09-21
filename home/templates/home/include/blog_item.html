@@ -1,0 +1,19 @@
+{% load i18n %}
+{% load staticfiles %}
+{% load wagtailimages_tags wagtailcore_tags %}
+
+<div class="list-group">
+    {% for blog in blogs %}
+        <a href="{% pageurl blog %}" class="list-group-item">
+            <div class="row">
+                <div class="col col-sm-8">
+                    <h3>{{ blog.heading }}</h3>
+                    <p>{{ blog.date }}</p>
+                </div>
+                <div class="col col-sm-4">
+                    {% image blog.photo width-200 class='img-responsive' %}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>

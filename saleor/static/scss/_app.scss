@@ -211,12 +211,14 @@ body {
 }
 
 .main-body {
-  padding-top: 50px;
+  padding-top: 100px;
 }
 
 #wagtail-userbar{
    top:200px
 }
+
+
 
 // Navbar
 
@@ -240,6 +242,10 @@ body {
 .navbar-default .navbar-nav>.active>a, .navbar-default
 .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus {
   background-color: #5bc0de;
+}
+
+ul.nav li.dropdown:hover ul.dropdown-menu {
+  display: block;
 }
 
 .landing-page-wrapper {
@@ -366,4 +372,22 @@ body {
 .cafe-item-container {
   padding: 1em;
   margin: 0 auto;
+}
+
+// Blog Page
+.block-photo {
+  margin: 30px auto;
+}
+
+.block-paragraph {
+  font-family: 'sans-serif';
+  line-height: 1.5em;
+}
+.blog-author-container {
+  text-align: center;
+  margin-top: 20px;
+}
+.blog-container {
+  margin: 0 auto;
+  max-width: 900px;
 }
